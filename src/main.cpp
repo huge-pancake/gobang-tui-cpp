@@ -57,6 +57,84 @@ public:
     return map[y][x];
   }
 
+  unsigned short check() {
+    unsigned short comboWhite = 0;
+    unsigned short comboBlack = 0;
+    // horiz check
+    for (unsigned short y = 0; y < MaxY; y++) {
+      for (unsigned short x = 0; x <= MaxX - 5; x++) {
+        comboWhite = 0;
+        comboBlack = 0;
+        for (unsigned short n = 0; n < 5; n++) {
+          if (map[y][x + n] == 1) {
+            comboWhite++;
+          } else if (map[y][x + n] == 2) {
+            comboBlack++;
+          }
+        }
+        if (comboWhite == 5)
+          return 1;
+        else if (comboBlack == 5)
+          return 2;
+      }
+    }
+    // vert check
+    for (unsigned short x = 0; x < MaxX; x++) {
+      for (unsigned short y = 0; y <= MaxY - 5; y++) {
+        comboWhite = 0;
+        comboBlack = 0;
+        for (unsigned short n = 0; n < 5; n++) {
+          if (map[y + n][x] == 1) {
+            comboWhite++;
+          } else if (map[y + n][x] == 2) {
+            comboBlack++;
+          }
+        }
+        if (comboWhite == 5)
+          return 1;
+        else if (comboBlack == 5)
+          return 2;
+      }
+    }
+    // left-top > right-bottom check
+    for (unsigned short x = 0; x <= MaxX - 5; x++) {
+      for (unsigned short y = 0; y <= MaxY - 5; y++) {
+        comboWhite = 0;
+        comboBlack = 0;
+        for (unsigned short n = 0; n < 5; n++) {
+          if (map[y + n][x + n] == 1) {
+            comboWhite++;
+          } else if (map[y + n][x + n] == 2) {
+            comboBlack++;
+          }
+        }
+        if (comboWhite == 5)
+          return 1;
+        else if (comboBlack == 5)
+          return 2;
+      }
+    }
+    // right-top > left-bottom check
+    for (unsigned short x = 4; x <= MaxX; x++) {
+      for (unsigned short y = 0; y <= MaxY - 5; y++) {
+        comboWhite = 0;
+        comboBlack = 0;
+        for (unsigned short n = 0; n < 5; n++) {
+          if (map[y + n][x - n] == 1) {
+            comboWhite++;
+          } else if (map[y + n][x - n] == 2) {
+            comboBlack++;
+          }
+        }
+        if (comboWhite == 5)
+          return 1;
+        else if (comboBlack == 5)
+          return 2;
+      }
+    }
+    return 0;
+  }
+
   void print(Cursor cursor) {
     using namespace std;
 
@@ -103,7 +181,7 @@ public:
 
 private:
   unsigned short map[MaxY][MaxX]{0};
-  std::string Chars[3]{"  ", " ", " "};
+  std::string Chars[3]{"  ", " ", " "};
 };
 
 class Side {
@@ -193,6 +271,20 @@ int main() {
 
       moveCursor(0, 0);
       gobang.print(cursor);
+
+      if (gobang.check()) {
+        switch (gobang.check()) {
+        case 1:
+          std::cout << " White ";
+          break;
+        case 2:
+          std::cout << " Black ";
+          break;
+        }
+        std::cout << BOLDYELLOW << "Won!\n" << RESET;
+        cursor.reset();
+        gobang.reset();
+      }
     }
   }
 }

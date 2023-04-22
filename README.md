@@ -19,5 +19,5 @@ To run only (need to build first), run `./builder run`.
 ## Todos
 
 - [ ] Undo
-- [ ] Auto check if player wins
+- [x] Auto check if player wins
 - [ ] Center the chess-board
