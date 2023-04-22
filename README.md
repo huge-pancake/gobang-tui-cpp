@@ -1,6 +1,6 @@
 # gobang-tui-cpp
 
-![image](https://user-images.githubusercontent.com/73375859/233754919-b91b53c2-90a6-4b0a-a686-18d85687bb2a.png)
+![image](https://user-images.githubusercontent.com/73375859/233757042-42ba30c1-75f8-444b-afe8-a4abc0443d1c.png)
 
 > Gobang in terminal written in C++
 
