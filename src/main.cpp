@@ -1,9 +1,8 @@
-#include <iostream>
-
 #include "../include/colors.h"
 #include "../include/cursor.h"
 #include <csignal>
 #include <cstdlib>
+#include <iostream>
 
 const unsigned short MaxX = 19;
 const unsigned short MaxY = 19;
