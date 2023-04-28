@@ -4,194 +4,192 @@
 #include <cstdlib>
 #include <iostream>
 
-const unsigned short MaxX = 19;
-const unsigned short MaxY = 19;
-const std::string Title = " Gobang ";
+#define US unsigned short
+
+const US MAX_X = 19;
+const US MAX_Y = 19;
+const std::string TITLE = " The Gobang Game! ";
 
 class Cursor {
 public:
-  Cursor() = default;
-  Cursor(Cursor &&) = default;
-  Cursor(const Cursor &) = default;
-  Cursor &operator=(Cursor &&) = default;
-  Cursor &operator=(const Cursor &) = default;
-  ~Cursor() = default;
-
   void move(short relX, short relY) {
-    unsigned short tempX = relX + x;
-    unsigned short tempY = relY + y;
-    if (tempX >= 0 && tempX < MaxX)
-      x = tempX;
-    if (tempY >= 0 && tempY < MaxY)
-      y = tempY;
+    US temp_x = relX + x;
+    US temp_y = relY + y;
+    if (temp_x >= 0 && temp_x < MAX_X)
+      x = temp_x;
+    if (temp_y >= 0 && temp_y < MAX_Y)
+      y = temp_y;
   }
 
-  std::pair<unsigned short, unsigned short> get() { return {x, y}; }
+  std::pair<US, US> get() { return {x, y}; }
 
   void reset() {
-    x = MaxX / 2;
-    y = MaxY / 2;
+    x = MAX_X / 2;
+    y = MAX_Y / 2;
   }
 
 private:
-  unsigned short x = MaxX / 2;
-  unsigned short y = MaxY / 2;
+  US x = MAX_X / 2;
+  US y = MAX_Y / 2;
 };
 
 class Gobang {
 public:
-  Gobang() = default;
-  Gobang(Gobang &&) = default;
-  Gobang(const Gobang &) = default;
-  Gobang &operator=(Gobang &&) = default;
-  Gobang &operator=(const Gobang &) = default;
-  ~Gobang() = default;
-
-  void setPoint(Cursor cursor, unsigned short num) {
+  void point_set(Cursor cursor, US num) {
     auto [x, y] = cursor.get();
     map[y][x] = num;
   }
-  unsigned short getPoint(Cursor cursor) {
+  US point_get(Cursor cursor) {
     auto [x, y] = cursor.get();
     return map[y][x];
   }
 
-  unsigned short check() {
-    unsigned short comboWhite = 0;
-    unsigned short comboBlack = 0;
+  US check() {
+    US combo_white = 0;
+    US combo_black = 0;
     // horiz check
-    for (unsigned short y = 0; y < MaxY; y++) {
-      for (unsigned short x = 0; x <= MaxX - 5; x++) {
-        comboWhite = 0;
-        comboBlack = 0;
-        for (unsigned short n = 0; n < 5; n++) {
+    for (US y = 0; y < MAX_Y; y++) {
+      for (US x = 0; x <= MAX_X - 5; x++) {
+        combo_white = 0;
+        combo_black = 0;
+        for (US n = 0; n < 5; n++) {
           if (map[y][x + n] == 1) {
-            comboWhite++;
+            combo_white++;
           } else if (map[y][x + n] == 2) {
-            comboBlack++;
+            combo_black++;
           }
         }
-        if (comboWhite == 5)
+        if (combo_white == 5)
           return 1;
-        else if (comboBlack == 5)
+        else if (combo_black == 5)
           return 2;
       }
     }
     // vert check
-    for (unsigned short x = 0; x < MaxX; x++) {
-      for (unsigned short y = 0; y <= MaxY - 5; y++) {
-        comboWhite = 0;
-        comboBlack = 0;
-        for (unsigned short n = 0; n < 5; n++) {
+    for (US x = 0; x < MAX_X; x++) {
+      for (US y = 0; y <= MAX_Y - 5; y++) {
+        combo_white = 0;
+        combo_black = 0;
+        for (US n = 0; n < 5; n++) {
           if (map[y + n][x] == 1) {
-            comboWhite++;
+            combo_white++;
           } else if (map[y + n][x] == 2) {
-            comboBlack++;
+            combo_black++;
           }
         }
-        if (comboWhite == 5)
+        if (combo_white == 5)
           return 1;
-        else if (comboBlack == 5)
+        else if (combo_black == 5)
           return 2;
       }
     }
     // left-top > right-bottom check
-    for (unsigned short x = 0; x <= MaxX - 5; x++) {
-      for (unsigned short y = 0; y <= MaxY - 5; y++) {
-        comboWhite = 0;
-        comboBlack = 0;
-        for (unsigned short n = 0; n < 5; n++) {
+    for (US x = 0; x <= MAX_X - 5; x++) {
+      for (US y = 0; y <= MAX_Y - 5; y++) {
+        combo_white = 0;
+        combo_black = 0;
+        for (US n = 0; n < 5; n++) {
           if (map[y + n][x + n] == 1) {
-            comboWhite++;
+            combo_white++;
           } else if (map[y + n][x + n] == 2) {
-            comboBlack++;
+            combo_black++;
           }
         }
-        if (comboWhite == 5)
+        if (combo_white == 5)
           return 1;
-        else if (comboBlack == 5)
+        else if (combo_black == 5)
           return 2;
       }
     }
     // right-top > left-bottom check
-    for (unsigned short x = 4; x <= MaxX; x++) {
-      for (unsigned short y = 0; y <= MaxY - 5; y++) {
-        comboWhite = 0;
-        comboBlack = 0;
-        for (unsigned short n = 0; n < 5; n++) {
+    for (US x = 4; x <= MAX_X; x++) {
+      for (US y = 0; y <= MAX_Y - 5; y++) {
+        combo_white = 0;
+        combo_black = 0;
+        for (US n = 0; n < 5; n++) {
           if (map[y + n][x - n] == 1) {
-            comboWhite++;
+            combo_white++;
           } else if (map[y + n][x - n] == 2) {
-            comboBlack++;
+            combo_black++;
           }
         }
-        if (comboWhite == 5)
+        if (combo_white == 5)
           return 1;
-        else if (comboBlack == 5)
+        else if (combo_black == 5)
           return 2;
       }
     }
     return 0;
   }
 
-  void print(Cursor cursor) {
+  void printBoxTop() {
     using namespace std;
 
-    auto [cursorX, cursorY] = cursor.get();
+    int total_length = MAX_X * 2 + 2;
+    int title_length = TITLE.size();
+    int left_length = (total_length - title_length) / 2;
+    int right_length = total_length - title_length - left_length;
 
     cout << BOLDBLUE;
     cout << "╭";
-    for (int i = 0; i < (MaxX + 1) - Title.size() / 2; i++)
+    for (int i = 0; i < left_length; i++)
       cout << "─";
-    cout << Title;
-    for (int i = 0; i < (MaxX + 1) - Title.size() / 2; i++)
+    cout << TITLE;
+    for (int i = 0; i < right_length; i++)
       cout << "─";
     cout << "╮\n";
     cout << RESET;
+  }
+  void printBoxBottom() {
+    using namespace std;
 
-    for (int y = 0; y < MaxY; y++) {
-      cout << BOLDBLUE << "│ " << RESET;
-      for (int x = 0; x < MaxX; x++) {
-        if (x == cursorX && y == cursorY) {
-          setbgcolor(88, 91, 112);
-        } else if (x % 2 == y % 2) {
-          setbgcolor(49, 50, 68);
-        }
-        cout << Chars[map[y][x]] << RESET;
-      }
-      cout << BOLDBLUE << " │\n" << RESET;
-    }
+    int total_length = MAX_X * 2 + 2;
 
     cout << BOLDBLUE;
     cout << "╰";
-    for (int i = 0; i < (MaxX + 1) * 2; i++)
+    for (int i = 0; i < total_length; i++)
       cout << "─";
     cout << "╯\n";
     cout << RESET;
   }
+  void print(Cursor cursor) {
+    using namespace std;
+
+    auto [cursor_x, cursor_y] = cursor.get();
+
+    printBoxTop();
+
+    for (int y = 0; y < MAX_Y; y++) {
+      cout << BOLDBLUE << "│ " << RESET;
+      for (int x = 0; x < MAX_X; x++) {
+        if (x == cursor_x && y == cursor_y) {
+          setbgcolor(88, 91, 112);
+        } else if (x % 2 == y % 2) {
+          setbgcolor(49, 50, 68);
+        }
+        cout << CHARS[map[y][x]] << RESET;
+      }
+      cout << BOLDBLUE << " │\n" << RESET;
+    }
+
+    printBoxBottom();
+  }
 
   void reset() {
-    for (int y = 0; y < MaxY; y++) {
-      for (int x = 0; x < MaxX; x++) {
+    for (int y = 0; y < MAX_Y; y++) {
+      for (int x = 0; x < MAX_X; x++) {
         map[y][x] = 0;
       }
     }
   }
 
 private:
-  unsigned short map[MaxY][MaxX]{0};
-  std::string Chars[3]{"  ", " ", " "};
+  US map[MAX_Y][MAX_X]{0};
+  std::string CHARS[3]{"  ", " ", " "};
 };
 
 class Side {
 public:
-  Side() = default;
-  Side(Side &&) = default;
-  Side(const Side &) = default;
-  Side &operator=(Side &&) = default;
-  Side &operator=(const Side &) = default;
-  ~Side() = default;
-
   void toggle() { side = side == "white" ? "black" : "white"; }
   std::string get() { return side; }
 
@@ -221,7 +219,7 @@ int main() {
   Gobang gobang{};
   Side side{};
 
-  moveCursor(0, 0);
+  move_cursor(0, 0);
   gobang.print(cursor);
 
   set_cursor_mode(false);
@@ -261,14 +259,14 @@ int main() {
         break;
 
       case ' ':
-        if (gobang.getPoint(cursor))
+        if (gobang.point_get(cursor))
           break;
-        gobang.setPoint(cursor, side.get() == "white" ? 1 : 2);
+        gobang.point_set(cursor, side.get() == "white" ? 1 : 2);
         side.toggle();
         break;
       }
 
-      moveCursor(0, 0);
+      move_cursor(0, 0);
       gobang.print(cursor);
 
       if (gobang.check()) {
