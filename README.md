@@ -6,7 +6,7 @@
 
 ## Dev
 
-_\*Need `g++` executable (C++17), the default pieces characters need Nerd Font, or you can modify `main.cpp > Gobang > private > Chars`_
+_\*Need `clang++` executable, it's the default compiler. The default pieces characters need Nerd Font, or you can modify `main.cpp > Gobang > private > Chars`_
 
 _\*Probebly can not run in Windows_
 

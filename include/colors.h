@@ -8,6 +8,7 @@
 // Use with a modern terminal emulator, such as iterm2 for Mac or PuTTY for PC
 #include <cassert>
 #include <cctype>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <functional>
